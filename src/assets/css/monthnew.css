@@ -1,0 +1,398 @@
+
+/*
+
+Created by Matej Kovac
+http://moodydev.io
+
+*/
+
+/* FONT IMPORTS */
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+.icon {
+  font-family: "Material Icons", serif;
+  font-style: normal;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "liga";
+}
+
+/* VARIABLES */
+
+:root {
+  --main-color: #1a8fff;
+  --text-color: #777;
+  --text-color-light: #ccc;
+  --border-color: #dadce0;
+  --bg-color: #EBF4F9;
+  --neutral-color: #fff;
+}
+
+/* GENERAL */
+
+* {
+  box-sizing: border-box;
+}
+
+
+
+header {
+  display: block;
+  width: 100%;
+  /* padding: 1.75em 0; */
+  border-bottom: 1px solid var(--border-color);
+  background: var(--neutral-color);
+}
+
+header #logo {
+  font-size: 175%;
+  text-align: center;
+  color: var(--main-color);
+  line-height: 1;
+}
+
+header #logo .icon {
+  padding-right: 0.25em;
+}
+.daynames{
+    color: #626F86;
+    line-height: 1.57143;
+    font-size: 12px;
+    font-family: "Public Sans", sans-serif;
+    font-weight: 600;
+}
+
+main {
+  display: block;
+  margin: 0 auto;
+  margin-top: 5em;
+  max-width: 50em;
+}
+
+/* GRID */
+
+.row {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.row-middle {
+  align-items: center;
+}
+
+.col {
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100%;
+  text-align: center;
+}
+
+.col-start {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.col-center {
+  justify-content: center;
+  text-align: center;
+  /* border-right: 1px solid var(--border-color); */
+}
+
+.col-end {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+/* Calendar */
+
+.calendar {
+  display: block;
+  position: relative;
+  width: 100%;
+  background: var(--neutral-color);
+  border: 1px solid var(--border-color);
+  max-width: 97% !important;
+  margin: 0 4px !important;
+}
+
+.calendar .header {
+  text-transform: uppercase;
+  font-size: 12%;
+  font-weight: 600;
+  color: #626F86;
+  padding: 1.5em 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.calendar .header .icon {
+  cursor: pointer;
+  transition: 0.15s ease-out;
+}
+
+.calendar .header .icon:hover {
+  transform: scale(1.75);
+  transition: 0.25s ease-out;
+  color: var(--main-color);
+}
+
+.calendar .header .icon:first-of-type {
+  margin-left: 1em;
+}
+
+.calendar .header .icon:last-of-type {
+  margin-right: 1em;
+}
+
+.calendar .days {
+  text-transform: uppercase;
+  color: var(--text-color-light);
+  border-bottom: 1px solid #ddd;
+  /* padding: 0.75em 0;
+  border-bottom: 1px solid var(--border-color); */
+}
+
+.calendar .body .cell {
+  position: relative;
+  height: 12vh;
+  border-right: 1px solid var(--border-color);
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--neutral-color);
+  transition: 0.25s ease-out;
+}
+
+.calendar .body .cell:hover {
+  background: var(--bg-color);
+  transition: 0.5s ease-out;
+}
+
+.calendar .body .selected {
+  border-left: 10px solid transparent;
+  border-image: linear-gradient(45deg, #1a8fff 0%, #53cbf1 40%);
+  border-image-slice: 1;
+}
+
+.calendar .body .row {
+  border-bottom: 1px solid var(--border-color);
+  border-right: 1px solid #ccc;}
+
+.calendar .body .row:last-child {
+  border-bottom: none;
+}
+
+.calendar .body .cell:last-child {
+  border-right: none;
+}
+
+.calendar .body .cell .number {
+  position: absolute;
+  font-size: 18px;
+  line-height: 1;
+  top: 14px;
+  right: 10px;
+  padding: 3px;
+   
+}
+
+.number1 {
+  position: sticky;
+  font-size: 9pt;
+  line-height: 1;
+  top: 3px;
+  right: 10px;
+  padding: 3px;
+  font-weight: 500;
+   
+}
+.col.cell .number1 {
+  color: #44546F; /* Specify the color you want */
+}
+
+.col.cell.disabled .number1 {
+  color: lightgray
+}
+
+.calendar .body .disabled {
+  color: var(--text-color-light);
+  pointer-events: none;
+}
+
+.calendar .body .cell .bg {
+  line-height: 1;
+  color: var(--main-color);
+  opacity: 0;
+  font-size: 8em;
+  position: absolute;
+  top: -0.2em;
+  right: -0.05em;
+  transition: 0.25s ease-out;
+  letter-spacing: -0.07em;
+}
+
+.calendar .body .cell:hover .bg,
+.calendar .body .selected .bg {
+  opacity: 0.05;
+  transition: 0.5s ease-in;
+}
+
+.calendar .body .col {
+  flex-grow: 0;
+  flex-basis: calc(100% / 7);
+  width: calc(100% / 7);
+  overflow: auto;
+}
+/* manual css bilal */
+
+.selectdt{
+  width: 30px;
+  height: 30px;
+  margin: auto;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  position: relative;
+  color: #fff !important;
+  background-color: gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 1px;
+}
+.tagday{
+  font-size: 14px;
+  /* background: rgb(3, 155, 229); */
+  color: #fff;
+  border-radius: 4px;
+  text-align: center;
+  margin: 7px !important;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.tagday1 {
+  font-size: 14px;
+  /* background: rgb(3, 155, 229); */
+  color: #fff;
+  border-radius: 4px;
+  text-align: left;
+  margin: 0px !important;
+  text-transform: capitalize;
+  cursor: pointer;
+  padding: 3px;
+}
+.tagdaymore{
+  font-size: 1.3em;
+  color: #3c4043;
+  border-radius: 4px;
+  text-align: center;
+  padding: 1px 8px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+}
+
+.tagdaymore:hover {
+  background-color: aliceblue;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+.headerday{
+  color: #70757a;
+  font-size: 11px;
+  letter-spacing: .8px;
+  line-height: 16px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+}
+.subTitpopDate {
+  font-family: 'Google Sans',Roboto,Arial,sans-serif;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  font-size: 26px;
+  letter-spacing: -2.6px;
+  text-indent: -2.6px;
+  font-variant: tabular-nums;
+  -webkit-font-feature-settings: "tnum" 1;
+  font-feature-settings: "tnum" 1;
+  line-height: 40px;
+  color: #3c4043;
+  /* width: 40px; */
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  height: 40px;
+  text-align: center;
+}
+.calendarTextCenter{
+  margin-top: 15% !important;
+  
+}
+.monthYear {
+  top: 0 !important;
+  left: 0 !important;
+  position: absolute !important;
+  transform: translate(0, 2px) scale(1);
+  display: inline-block !important;
+}
+
+
+
+
+#customized-dialog-title{
+  display:flex;
+  justify-content:space-between;
+}
+.MuiDialog-container{
+  width:100%;
+}
+.PPMCount {
+  position: absolute;
+  left: -50px;
+  top: 30px;
+  font-size: 1.6rem;
+    font-weight: 500;
+    color: green;
+}
+.CCMCount {
+  width: 100%;
+  position: absolute;
+  left: 10px !important;
+  top: 20px !important;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #3A73BB;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  justify-content: center;
+  text-align: center;
+}
+ 
+#customized-dialog-title{
+  margin: 0 !important;
+}
+.calenderdialogroot{
+  margin: 0;
+  padding:5px;
+}
+.calenderdialogrootclose{
+  position: absolute;
+  /* right: 
+  top: theme.spacing(1),
+  color: theme.palette.grey[500] */
+}
+
