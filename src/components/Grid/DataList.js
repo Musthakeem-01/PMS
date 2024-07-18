@@ -104,6 +104,7 @@ const CustomDatalist = (props) => {
           height: props.height ? props.height : "",
           width: props.width ? props.width : "",
           marginTop: props.marginTop ? props.marginTop : "",
+          borderStyle: props.borderStyle ? props.borderStyle : "",
         }}
         type="text"
         value={inputValue}
@@ -111,7 +112,7 @@ const CustomDatalist = (props) => {
         onKeyDown={handleKeyDown} // Handle keyboard events
         onFocus={handleFocus}
         ref={inputRef}
-        className="w-full text-xs p-1 border border-gray-300 rounded"
+        className="w-full text-xs p-1 border border-borderColor rounded"
         placeholder={props.fieldName ? `Search for ${props.fieldName}` : ""}
         required
       />

@@ -23,7 +23,7 @@ export default function CreateTask() {
     // border: "2px solid #000",
     // boxShadow: 24,
     // p: 4,
-    width: "60%",
+    width: "70%",
     height: "85vh",
     borderRadius: "0.25rem",
   };
@@ -130,10 +130,10 @@ export default function CreateTask() {
                 </div>
                 <div className="mt-4">
                   <label className="text-project text-sm font-medium">
-                    Reporter*
+                    Reporter
                   </label>
-                  <DataList width={"350px"} height={"40px"} />
                   <span className="text-red-500">*</span>
+                  <DataList width={"350px"} height={"40px"} />
                 </div>
                 <div className="mt-4">
                   <label className="text-project text-sm font-medium">
@@ -156,6 +156,27 @@ export default function CreateTask() {
                   </label>
                   <DataList width={"350px"} height={"40px"} />
                 </div>
+                <div className="mt-4 relative">
+                  <label className="text-project text-sm font-medium">
+                    Attachment
+                  </label>
+                  <div className="w-full h-[40px] border-dashed text-center text-sm p-1 border border-borderColor rounded flex items-center justify-center">
+                    <span>Drop files to attach or </span>
+                    <label
+                      htmlFor="file-upload"
+                      className="text-blue-500 cursor-pointer ml-1"
+                    >
+                      browse
+                    </label>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      className="hidden"
+                      onChange={(e) => console.log(e.target.files)}
+                    />
+                  </div>
+                </div>
+
                 <div className="mt-4">
                   <label className="text-project text-sm font-medium">
                     Original Estimate
