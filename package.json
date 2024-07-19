@@ -33,7 +33,8 @@
     "react-scripts": "5.0.1",
     "styled": "^1.0.0",
     "styled-components": "^6.1.11",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@tinymce/tinymce-react": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
