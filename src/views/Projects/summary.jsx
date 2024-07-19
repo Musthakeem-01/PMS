@@ -343,7 +343,7 @@ const Summary = (props) => {
                           key={index}
                           className={`flex items-center justify-between p-1 rounded-md ${bgColor}`}
                         >
-                          <span className="text-[10px] font-semibold text-gray-600 truncate w-3/5">
+                          <span className="text-[10px] font-medium text-gray-600 truncate w-3/5">
                             {item.Department}
                           </span>
                           <span

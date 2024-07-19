@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useRef } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -9,10 +10,15 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import { FaSortDown } from "react-icons/fa";
 import DataList from "../components/Grid/DataList";
+import { TbCloudUpload } from "react-icons/tb";
+import { CiCircleInfo } from "react-icons/ci";
+import { Editor } from "@tinymce/tinymce-react";
+
 export default function CreateTask() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const editorRef = useRef(null);
 
   const style = {
     position: "absolute",
@@ -20,12 +26,12 @@ export default function CreateTask() {
     left: "50%",
     transform: "translate(-50%, -50%)",
     bgcolor: "background.paper",
-    // border: "2px solid #000",
-    // boxShadow: 24,
-    // p: 4,
-    width: "70%",
-    height: "85vh",
+    width: "60vw",
+    height: "80vh",
     borderRadius: "0.25rem",
+  };
+  const handleEditorChange = (content, editor) => {
+    console.log("Content was updated:", content);
   };
 
   return (
@@ -87,9 +93,12 @@ export default function CreateTask() {
                   <hr className="w-full text-color" />
                 </div>
                 <div className="mt-8">
-                  <label className="text-project text-sm font-medium">
-                    Status
-                  </label>
+                  <div className="flex">
+                    <label className="text-project text-sm font-medium">
+                      Status
+                    </label>
+                    <CiCircleInfo className="text-xs mt-1" />
+                  </div>
                   <DataList width={"100px"} height={"30px"} />
                   <span className="text-xs text-color">
                     This is the issue's initial status upon creation
@@ -109,15 +118,41 @@ export default function CreateTask() {
                   >
                     Description
                   </label>
-                  <div className="">
-                    <textarea
-                      id="description"
-                      className="w-full h-32  border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-500"
-                      // placeholder="We support markdown! Try **bold**, `inline code`, or ``` for code blocks."
-                      // value={text}
-                      // onChange={(e) => setText(e.target.value)}
-                    ></textarea>
-                  </div>
+                  <Editor
+                    apiKey="8wuk2rv5omhkdc6l1olhzmwnb3xci5nj9fa0f2c9xiv7fse0"
+                    onInit={(evt, editor) => (editorRef.current = editor)}
+                    initialValue="Words not enough? Type : to add emoji. 😍"
+                    init={{
+                      height: 200,
+                      menubar: false,
+                      plugins: [
+                        "advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount emoticons",
+                      ],
+                      toolbar:
+                        "undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image customEmoji | help",
+                      content_style:
+                        "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                      statusbar: false,
+                      setup: function (editor) {
+                        // Register custom button
+                        editor.ui.registry.addButton("customEmoji", {
+                          text: "Emoji",
+                          onAction: function () {
+                            editor.execCommand("mceEmoticons");
+                          },
+                        });
+
+                        // Event listener for the colon key
+                        editor.on("keydown", function (e) {
+                          if (e.key === ":") {
+                            editor.execCommand("mceEmoticons");
+                            e.preventDefault();
+                          }
+                        });
+                      },
+                    }}
+                    onEditorChange={handleEditorChange}
+                  />
                 </div>
                 <div className="mt-4">
                   <label className="text-project text-sm font-medium">
@@ -161,6 +196,7 @@ export default function CreateTask() {
                     Attachment
                   </label>
                   <div className="w-full h-[40px] border-dashed text-center text-sm p-1 border border-borderColor rounded flex items-center justify-center">
+                    <TbCloudUpload className="text-2xl m-1" />
                     <span>Drop files to attach or </span>
                     <label
                       htmlFor="file-upload"
@@ -228,26 +264,27 @@ export default function CreateTask() {
               </div>
             </div>
             {/* footer */}
-            <div className=" flex p-[24px] h-[20%] justify-between	items-center">
-              <div className=" text-sm font-small normal-case leading-[35px] w-[21%]">
-                <label className="w-full flex justify-between">
+            <div className="flex p-[24px] h-[20%] justify-between items-center">
+              <div className="text-sm font-small normal-case leading-[35px] w-[21%] flex items-center">
+                <label className="flex items-center">
                   <input
                     type="checkbox"
                     id="another"
                     name="issue"
                     value="crete"
+                    className="mr-2 text-xs rounded"
                   />
                   <span>Create another issue</span>
                 </label>
               </div>
-              <div className="flex text-sm font-small normal-case leading-[35px] w-[21%]">
+              <div className="flex text-sm font-small normal-case leading-[35px] w-[21%] justify-end">
                 <button
-                  className="w-full text-sm hover:underline cursor-pointer"
+                  className="mr-4 text-sm hover:underline cursor-pointer"
                   onClick={handleClose}
                 >
                   Cancel
                 </button>
-                <button className="w-full text-sm hover:bg-blue-700 rounded cursor-pointer bg-blue-600 text-white p-1">
+                <button className="text-sm hover:bg-blue-700 rounded cursor-pointer bg-blue-600 text-white px-4 py-2">
                   <span>Create</span>
                 </button>
               </div>

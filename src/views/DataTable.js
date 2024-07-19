@@ -28,7 +28,6 @@ import GridContainer from "../components/Grid/GridContainer";
 import showNotification from "../components/customcomponents/notificationUtils";
 import { Store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { TiAttachmentOutline } from "react-icons/ti";
 
 const style = {
   position: "absolute",
@@ -77,12 +76,9 @@ export default function DataTable(props) {
   const [comment, setComment] = useState("");
   const [showdept, setshowdept] = useState(false);
   const [startDate, setStartDate] = useState("");
-  // console.log("🚀 ~ DataTable ~ startDate:", startDate);
   const [toDay, setToday] = useState([]);
-  // console.log("🚀 ~ DataTable ~ toDay:", toDay);
   const [endDate, setEndDate] = useState("");
   const [endDateBe, setEndDateBe] = useState([]);
-  // console.log("🚀 ~ DataTable ~ endDateBe:", endDateBe);
   const [complaintIDPK, setComplaintIDPK] = useState([]);
   // console.log("🚀 ~ DataTable ~ complaintIDPK:", complaintIDPK);
   const [cardHTML, setCardHTML] = useState([]);
@@ -107,7 +103,6 @@ export default function DataTable(props) {
   const [checkPointIdpk, setCheckPointIdpk] = useState([]);
   const containerRef = useRef(null);
   // console.log("🚀 ~ DataTable ~ checkPintIdpk:", checkPointIdpk);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const HeaderGrid = [
     {
@@ -672,6 +667,13 @@ export default function DataTable(props) {
     } else {
       console.warn("No ComplaintIDPK found in params.row:", params.row);
     }
+    const date = new Date();
+    let currentDate = startDate ? startDate : formatDate(date);
+
+    let currentEnd = endDate ? endDate : formatDate(date, 1);
+
+    setToday(currentDate);
+    setEndDateBe(currentEnd);
   };
 
   const handleCellClick = (params) => {
@@ -693,13 +695,6 @@ export default function DataTable(props) {
     } else {
       setCheckPoint(false);
     }
-    const date = new Date();
-    let currentDate = startDate ? startDate : formatDate(date);
-
-    let currentEnd = endDate ? endDate : formatDate(date, 1);
-
-    setToday(currentDate);
-    setEndDateBe(currentEnd);
   };
 
   const inputSelected = (inputValue, refname, refid) => {
@@ -728,10 +723,8 @@ export default function DataTable(props) {
   };
 
   const handleClickOutside = (event) => {
-    // console.log("🚀 ~ handleClickOutside ~ event:", event);
     if (containerRef.current && !containerRef.current.contains(event.target)) {
       setShowDiv(false);
-      setIsModalOpen(false);
     }
   };
 
@@ -761,8 +754,8 @@ export default function DataTable(props) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
   const handleSchedule = async (activeTaskId) => {
-    let from = startDate ? startDate : toDay;
-    let to = endDate ? endDate : endDateBe;
+    let from = startDate;
+    let to = endDate;
     let fromDate = new Date(from);
     let toDate = new Date(to);
     let timeDifferenceInMinutes = Math.abs((toDate - fromDate) / (1000 * 60));
@@ -879,13 +872,9 @@ export default function DataTable(props) {
   const handleStartDateChange = (date) => {
     console.log(date, "date");
     setStartDate(new Date(date));
-    let currentDate = startDate ? startDate : formatDate(date);
-    setToday(currentDate);
   };
   const handleEndDateChange = (date) => {
     setEndDate(new Date(date));
-    let currentEnd = endDate ? endDate : formatDate(date, 1);
-    setEndDateBe(currentEnd);
   };
   const handleassign = () => {
     // console.log("selectedInputValue:", selectedInputValue); // For debugging
@@ -974,13 +963,7 @@ export default function DataTable(props) {
       showNotification("Alert", "invalid input", "info");
     }
   };
-  const handleAttachmentsClick = () => {
-    setIsModalOpen(true);
-  };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   return (
     <>
       <div style={{ height: 400, width: "100%" }}>
@@ -1024,33 +1007,6 @@ export default function DataTable(props) {
                   onClick={handleClose}
                 />
                 {selectedRow?.RequestDetailsDesc || "No Data"}
-                <div>
-                  <div className="flex justify-end">
-                    <h2
-                      className="border border-black p-2 flex cursor-pointer rounded"
-                      onClick={handleAttachmentsClick}
-                    >
-                      <TiAttachmentOutline className="mt-1" />
-                      Attachments
-                    </h2>
-                  </div>
-
-                  {isModalOpen && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
-                      <div
-                        ref={containerRef}
-                        className="bg-white p-6 relative rounded shadow-lg h-[90vh] w-[75%]"
-                      >
-                        <IoClose
-                          className="absolute top-0 right-0   text-4xl cursor-pointer"
-                          onClick={closeModal}
-                        />
-                        <h3 className="text-lg font-bold mb-4">Attachments</h3>
-                        <p>No attachment found</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
                 <Box
                   sx={sectionContainer}
                   className="scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200"

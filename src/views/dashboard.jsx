@@ -176,8 +176,7 @@ function Dashboard(props) {
           </h1>
 
           <h1 className="text-2xl font-medium text-white text-center">
-            {name.charAt(0).toUpperCase() + name.slice(1)}
-            {/* { CurrentIcon() } */}
+            {name.charAt(0).toUpperCase() + name.slice(1)} {CurrentIcon()}
           </h1>
         </div>
         <div className="flex justify-start ">

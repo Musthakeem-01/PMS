@@ -1,28 +1,49 @@
-import React, { useState } from "react";
-import ReactMarkdown from "react-markdown";
+import React, { useRef } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 
-const MarkdownEditor = () => {
-  const [text, setText] = useState("");
+const RichTextEditor = () => {
+  const editorRef = useRef(null);
+
+  const handleEditorChange = (content, editor) => {
+    console.log('Content was updated:', content);
+  };
 
   return (
-    <div className="mt-8">
-      <label
-        className="block text-gray-700 text-sm font-bold mb-2"
-        htmlFor="description"
-      >
-        Description
-      </label>
-      <div className="p-4">
-        <textarea
-          id="description"
-          className="w-full h-32 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="We support markdown! Try **bold**, `inline code`, or ``` for code blocks."
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        ></textarea>
-      </div>
+    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
+      <h1>Rich Text Editor</h1>
+      <Editor
+        apiKey='8wuk2rv5omhkdc6l1olhzmwnb3xci5nj9fa0f2c9xiv7fse0'
+        onInit={(evt, editor) => editorRef.current = editor}
+        initialValue="Words not enough? Type : to add emoji. 😍"
+        init={{
+          height: 300,
+          menubar: false,
+          plugins: [
+            'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount emoticons'
+          ],
+          toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image customEmoji | help',
+          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+          statusbar: false,
+          setup: function(editor) {
+            editor.ui.registry.addButton('customEmoji', {
+              text: 'Emoji',
+              onAction: function() {
+                editor.execCommand('mceInsertEmoticon');
+              }
+            });
+
+            editor.on('keydown', function(e) {
+              if (e.key === ':') {
+                editor.execCommand('mceInsertEmoticon');
+                e.preventDefault();
+              }
+            });
+          }
+        }}
+        onEditorChange={handleEditorChange}
+      />
     </div>
   );
 };
 
-export default MarkdownEditor;
+export default RichTextEditor;

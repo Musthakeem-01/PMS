@@ -98,7 +98,12 @@ const CustomDatalist = (props) => {
   };
 
   return (
-    <div className="relative w-full h-full" ref={datalistRef}>
+    <div className="relative w-full h-full" ref={datalistRef}    style={{
+          height: props.height ? props.height : "",
+          width: props.width ? props.width : "",
+          marginTop: props.marginTop ? props.marginTop : "",
+          borderStyle: props.borderStyle ? props.borderStyle : "",
+        }}>
       <input
         style={{
           height: props.height ? props.height : "",

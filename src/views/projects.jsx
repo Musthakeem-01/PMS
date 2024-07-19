@@ -36,7 +36,7 @@ const ProjectLinks = [
   // { key: "Approvals", label: "Approvals", icon: TbArrowRampRight },
   // { key: "Forms", label: "Forms", icon: SiGoogleforms },
   // { key: "Pages", label: "Pages", icon: RiPagesLine },
-  // { key: "Attac`hments", label: "Attachments", icon: GrAttachment },
+  { key: "Attachments", label: "Attachments", icon: GrAttachment },
   // { key: "Issues", label: "Issues", icon: MdOutlineRunningWithErrors },
   // { key: "Reports", label: "Reports", icon: FaChartLine },
   // { key: "Shortcuts", label: "Shortcuts", icon: FaLink },
